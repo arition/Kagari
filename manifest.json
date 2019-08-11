@@ -1,0 +1,44 @@
+{
+    "manifest_version": 2,
+    "version": "1.0",
+    "name": "Kagari",
+    "author": "arition",
+    "background": {
+        "scripts": [
+            "dist/background.js"
+        ]
+    },
+    "browser_action": {
+        "default_title": "Refresh AX pages"
+    },
+    "content_scripts": [
+        {
+            "matches": [
+                "*://*.anime-expo.org/*",
+                "*://anime-expo.org/*"
+            ],
+            "js": [
+                "dist/content_ax.js"
+            ],
+            "run_at": "document_end"
+        },
+        {
+            "matches": [
+                "*://*.eventbrite.com/*",
+                "*://eventbrite.com/*"
+            ],
+            "js": [
+                "dist/content_eventbrite.js"
+            ],
+            "run_at": "document_idle",
+            "all_frames": true
+        }
+    ],
+    "icons": {
+        "48": "dist/img/icon_48.png",
+        "96": "dist/img/icon_96.png",
+        "128": "dist/img/icon_128.png",
+        "512": "dist/img/icon_512.png"
+    },
+    "description": "El Psy Congroo"
+}
