@@ -8,7 +8,7 @@ class AXInject {
             console.log("Register Page: Find match url");
             const feeList = document.querySelectorAll(".fee");
             feeList.forEach(fee => {
-                if (fee.textContent.match("Premier")) {
+                if (fee.textContent.match(/Premier/i)) {
                     const link = fee.querySelector(".fee-aside a") as HTMLAnchorElement;
                     if (link != null) {
                         //this.ReplaceToIframe("https://www.eventbrite.com/e/charaexpo-usa-2019-tickets-61886810115");

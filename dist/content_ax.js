@@ -9,7 +9,7 @@ var AXInject = (function () {
             console.log("Register Page: Find match url");
             var feeList = document.querySelectorAll(".fee");
             feeList.forEach(function (fee) {
-                if (fee.textContent.match("Premier")) {
+                if (fee.textContent.match(/Premier/i)) {
                     var link = fee.querySelector(".fee-aside a");
                     if (link != null) {
                         if (!_this.ReplaceToIframe(link.href)) {
