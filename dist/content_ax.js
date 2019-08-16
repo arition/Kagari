@@ -57,5 +57,4 @@ var AXInject = (function () {
     return AXInject;
 }());
 var axInject = new AXInject();
-axInject.Main();
 //# sourceMappingURL=content_ax.js.map

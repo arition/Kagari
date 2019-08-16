@@ -1,6 +1,8 @@
 class Background {
     public Main(): void {
-        if (localStorage.getItem("refresh") != "stop" && localStorage.getItem("refresh") != "run") {
+        if (localStorage.getItem("refresh") != "stop" &&
+            localStorage.getItem("refresh") != "run" &&
+            localStorage.getItem("refresh") != "burst") {
             localStorage.setItem("refresh", "stop");
         }
 
@@ -14,6 +16,10 @@ class Background {
                     chrome.browserAction.setBadgeText({ text: "run" });
                     break;
                 case "run":
+                    localStorage.setItem("refresh", "burst");
+                    chrome.browserAction.setBadgeText({ text: "burst" });
+                    break;
+                case "burst":
                     localStorage.setItem("refresh", "stop");
                     chrome.browserAction.setBadgeText({ text: "stop" });
                     break;
