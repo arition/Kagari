@@ -13,3 +13,5 @@ Modes
 - ```burst``` Keep refreshing and try to enter the checkout page when available (may failed due to unknown page structure)
 
 Click the extension icon to change modes
+
+Hint: Chrome dev tools -> network -> disable cache may help you to get the newest page
