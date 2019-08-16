@@ -5,7 +5,7 @@ class EventbriteInject {
         const url = window.location.href;
 
         if (url.match(/\d+(?=\?|\/)|\d+$/)) {
-            if (document.querySelector(".envelope_password_protected") != null) {
+            if (document.querySelector("#ticket_table") == null) {
                 chrome.runtime.sendMessage("refreshStatus", (response) => {
                     switch (response) {
                         case "run":
@@ -17,34 +17,19 @@ class EventbriteInject {
             } else {
                 chrome.runtime.sendMessage("refreshStatus", (response) => {
                     if (response == "burst") {
-                        const id = url.match(/\d+(?=\?|\/)|\d+$/)[0];
-                        const iframe = document.createElement("iframe");
-
-                        iframe.src = "https://www.eventbrite.com/checkout-external?eid=" + id +
-                            "&parent=" + encodeURIComponent(url) + "&modal=1&aff=oddtdteb";
-
-                        // Add id to iframe so we find and delete it when the user closes the modal
-                        iframe.id = "eventbrite-widget-modal-" + id;
-
-                        iframe.setAttribute("data-automation", "checkout-widget-iframe-" + id);
-                        iframe.setAttribute("allowtransparency", "true");
-                        iframe.setAttribute("allowfullscreen", "true");
-                        iframe.setAttribute("frameborder", "0");
-
-                        // Modal takeover styles
-                        iframe.style.zIndex = "2147483647";
-                        iframe.style.position = "fixed";
-                        iframe.style.top = "0";
-                        iframe.style.left = "0";
-                        iframe.style.right = "0";
-                        iframe.style.bottom = "0";
-                        iframe.style.margin = "0";
-                        iframe.style.border = "0";
-                        iframe.style.width = "100%";
-                        iframe.style.height = "100%";
-
-                        document.querySelector("body").innerHTML = "";
-                        document.querySelector("body").appendChild(iframe);
+                        const ticketRows = document.querySelectorAll(".ticket_row");
+                        ticketRows.forEach(ticket => {
+                            const name = ticket.querySelector(".ticket_type_name");
+                            if (name != null && name.textContent.match(/premier/)) {
+                                const quantitySelect = ticket.querySelector(".ticket_table_select") as HTMLSelectElement;
+                                if (quantitySelect != null) {
+                                    quantitySelect.value = "1";
+                                    quantitySelect.dispatchEvent(new Event("change", { bubbles: true }));
+                                }
+                            }
+                        });
+                        const registerBtn = document.querySelector(".cta_container a") as HTMLAnchorElement;
+                        registerBtn.click();
                     }
                 });
             }

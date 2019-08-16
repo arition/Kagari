@@ -5,7 +5,7 @@ var EventbriteInject = (function () {
         console.log("Kagari loaded");
         var url = window.location.href;
         if (url.match(/\d+(?=\?|\/)|\d+$/)) {
-            if (document.querySelector(".envelope_password_protected") != null) {
+            if (document.querySelector("#ticket_table") == null) {
                 chrome.runtime.sendMessage("refreshStatus", function (response) {
                     switch (response) {
                         case "run":
@@ -18,27 +18,19 @@ var EventbriteInject = (function () {
             else {
                 chrome.runtime.sendMessage("refreshStatus", function (response) {
                     if (response == "burst") {
-                        var id = url.match(/\d+(?=\?|\/)|\d+$/)[0];
-                        var iframe = document.createElement("iframe");
-                        iframe.src = "https://www.eventbrite.com/checkout-external?eid=" + id +
-                            "&parent=" + encodeURIComponent(url) + "&modal=1&aff=oddtdteb";
-                        iframe.id = "eventbrite-widget-modal-" + id;
-                        iframe.setAttribute("data-automation", "checkout-widget-iframe-" + id);
-                        iframe.setAttribute("allowtransparency", "true");
-                        iframe.setAttribute("allowfullscreen", "true");
-                        iframe.setAttribute("frameborder", "0");
-                        iframe.style.zIndex = "2147483647";
-                        iframe.style.position = "fixed";
-                        iframe.style.top = "0";
-                        iframe.style.left = "0";
-                        iframe.style.right = "0";
-                        iframe.style.bottom = "0";
-                        iframe.style.margin = "0";
-                        iframe.style.border = "0";
-                        iframe.style.width = "100%";
-                        iframe.style.height = "100%";
-                        document.querySelector("body").innerHTML = "";
-                        document.querySelector("body").appendChild(iframe);
+                        var ticketRows = document.querySelectorAll(".ticket_row");
+                        ticketRows.forEach(function (ticket) {
+                            var name = ticket.querySelector(".ticket_type_name");
+                            if (name != null && name.textContent.match(/premier/)) {
+                                var quantitySelect = ticket.querySelector(".ticket_table_select");
+                                if (quantitySelect != null) {
+                                    quantitySelect.value = "1";
+                                    quantitySelect.dispatchEvent(new Event("change", { bubbles: true }));
+                                }
+                            }
+                        });
+                        var registerBtn = document.querySelector(".cta_container a");
+                        registerBtn.click();
                     }
                 });
             }
