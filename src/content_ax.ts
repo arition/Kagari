@@ -66,4 +66,4 @@ class AXInject {
 }
 
 const axInject = new AXInject();
-axInject.Main();
+//axInject.Main();
