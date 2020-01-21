@@ -32,6 +32,17 @@
             ],
             "run_at": "document_idle",
             "all_frames": true
+        },
+        {
+            "matches": [
+                "*://*.passkey.com/*",
+                "*://passkey.com/*"
+            ],
+            "js": [
+                "dist/content_passkey.js"
+            ],
+            "run_at": "document_idle",
+            "all_frames": true
         }
     ],
     "icons": {
